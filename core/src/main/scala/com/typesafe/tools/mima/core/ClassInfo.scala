@@ -106,7 +106,7 @@ sealed abstract class ClassInfo(val owner: PackageInfo) extends InfoLike with Eq
   }
 
   private def lookupInterfaceMethods(method: MethodInfo): Iterator[MethodInfo] =
-    allInterfaces.iterator.flatMap(_.methods.get(method.bytecodeName))
+    allInterfaces.iterator.flatMap(_.methods.get(method.bytecodeName)).filterNot(_.isStatic)
 
   final def lookupMethods(method: MethodInfo): Iterator[MethodInfo] =
     lookupClassMethods(method) ++ lookupInterfaceMethods(method)

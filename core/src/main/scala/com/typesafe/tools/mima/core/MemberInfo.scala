@@ -60,7 +60,8 @@ private[mima] final class MethodInfo(owner: ClassInfo, bytecodeName: String, fla
       i -= 1
     decodedName.substring(0, i + 1).endsWith("$extension")
   }
-  def nonAccessible: Boolean = !isPublic || isSynthetic || (hasSyntheticName && !isExtensionMethod && !isDefaultGetter)
+  private def isImplMethod: Boolean = isStatic && decodedName.endsWith("$")
+  def nonAccessible: Boolean = !isPublic || (isSynthetic && !isImplMethod) || (hasSyntheticName && !isExtensionMethod && !isDefaultGetter && !isImplMethod)
 
   override def toString = s"def $bytecodeName: $descriptor"
 }
